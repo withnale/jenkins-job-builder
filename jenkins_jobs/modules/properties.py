@@ -486,7 +486,11 @@ def authenticated_build(registry, xml_parent, data):
         'hudson.model.Item.Build:authenticated')
 
 
-def authorization(registry, xml_parent, data):
+def folder_authorization(registry, xml_parent, data):
+    authorization(registry, xml_parent, data, True)
+
+
+def authorization(registry, xml_parent, data, folder=False):
     """yaml: authorization
     Specifies an authorization matrix
 
@@ -550,7 +554,7 @@ def authorization(registry, xml_parent, data):
     }
 
     if data:
-        if data.get('project-type') in ['multibranch', 'multibranch-defaults', 'workflow-multibranch']:
+        if folder:
             matrix = XML.SubElement(xml_parent,
                                     'com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty')
             inh_strategy = 'org.jenkinsci.plugins.matrixauth.inheritance.InheritParentStrategy'
@@ -1197,6 +1201,7 @@ class Properties(jenkins_jobs.modules.base.Base):
 
     def gen_xml(self, xml_parent, data):
         properties = xml_parent.find('properties')
+
         if properties is None:
             properties = XML.SubElement(xml_parent, 'properties')
 
