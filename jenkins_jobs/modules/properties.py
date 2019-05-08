@@ -550,7 +550,13 @@ def authorization(registry, xml_parent, data):
     }
 
     if data:
-        matrix = XML.SubElement(xml_parent,
+        if data.get('project-type') in ['multibranch', 'multibranch-defaults']:
+            matrix = XML.SubElement(xml_parent,
+                                    'com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty')
+            inh_strategy = 'org.jenkinsci.plugins.matrixauth.inheritance.InheritParentStrategy'
+            inh = XML.SubElement(matrix, 'inheritanceStrategy', {'class': inh_strategy})
+        else:
+            matrix = XML.SubElement(xml_parent,
                                 'hudson.security.AuthorizationMatrixProperty')
         for (username, perms) in data.items():
             for perm in perms:
