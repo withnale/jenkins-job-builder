@@ -267,35 +267,16 @@ class WorkflowMultiBranch(jenkins_jobs.modules.base.Base):
         ###########
         # Factory #
         ###########
-        auth_block = data.get('properties', {}).get('authorization')
-        if auth_block:
-            data['properties']['folder_authorization'] = data['properties'].pop('authorization')
 
-        if data.get('dsl'):
-            factory = XML.SubElement(xml_parent, 'factory', {
-                'class': 'org.jenkinsci.plugins.inlinepipeline.InlineDefinitionBranchProjectFactory',
-            })
-            XML.SubElement(factory, 'owner', {
-                'class': self.jenkins_class,
-                'reference': '../..'
-            })
-            XML.SubElement(factory, 'script').text = data['dsl']
-            needs_workspace = data.get('sandbox', False)
-            XML.SubElement(factory, 'sandbox').text = str(
-                needs_workspace).lower()
-            XML.SubElement(factory, 'markerFile').text = data.get(
-                'markerFile', 'Jenkinsfile')
-
-        else:
-            factory = XML.SubElement(xml_parent, 'factory', {
-                'class': self.jenkins_factory_class,
-            })
-            XML.SubElement(factory, 'owner', {
-                'class': self.jenkins_class,
-                'reference': '../..'
-            })
-            XML.SubElement(factory, 'scriptPath').text = data.get(
-                'script-path', 'Jenkinsfile')
+        factory = XML.SubElement(xml_parent, 'factory', {
+            'class': self.jenkins_factory_class,
+        })
+        XML.SubElement(factory, 'owner', {
+            'class': self.jenkins_class,
+            'reference': '../..'
+        })
+        XML.SubElement(factory, 'scriptPath').text = data.get(
+            'script-path', 'Jenkinsfile')
 
         return xml_parent
 
