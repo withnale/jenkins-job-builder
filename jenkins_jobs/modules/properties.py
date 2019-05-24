@@ -487,6 +487,41 @@ def authenticated_build(registry, xml_parent, data):
 
 
 def folder_authorization(registry, xml_parent, data):
+    """yaml: folder_authorization
+    Specifies an authorization matrix
+
+    .. _folder_authorization:
+
+    :arg list <name>: `<name>` is the name of the group or user, containing
+        the list of rights to grant.
+
+       :<name> rights:
+            * **credentials-create**
+            * **credentials-delete**
+            * **credentials-manage-domains**
+            * **credentials-update**
+            * **credentials-view**
+            * **job-build**
+            * **job-cancel**
+            * **job-configure**
+            * **job-delete**
+            * **job-discover**
+            * **job-extended-read**
+            * **job-move**
+            * **job-read**
+            * **job-status**
+            * **job-workspace**
+            * **ownership-jobs**
+            * **run-delete**
+            * **run-replay**
+            * **run-update**
+            * **scm-tag**
+
+    Example:
+
+    .. literalinclude:: /../../tests/properties/fixtures/authorization.yaml
+       :language: yaml
+    """
     authorization(registry, xml_parent, data, True)
 
 
