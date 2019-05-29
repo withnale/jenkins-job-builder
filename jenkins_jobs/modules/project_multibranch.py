@@ -267,10 +267,6 @@ class WorkflowMultiBranch(jenkins_jobs.modules.base.Base):
         ###########
         # Factory #
         ###########
-        auth_block = data.get('properties', {}).get('authorization')
-        if auth_block:
-            data['properties']['folder_authorization'] = data['properties'].pop('authorization')
-
         if data.get('dsl'):
             factory = XML.SubElement(xml_parent, 'factory', {
                 'class': 'org.jenkinsci.plugins.inlinepipeline.InlineDefinitionBranchProjectFactory',
